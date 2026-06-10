@@ -23,10 +23,10 @@ from src.indicators import add_all_indicators
 # ============================================================
 
 st.set_page_config(
-    page_title = "Stock Analytics",
-    page_icon  = "▲",
-    layout     = "wide",
-    initial_sidebar_state = "expanded"
+    page_title            = "Stock Analytics",
+    page_icon             = "📈",
+    layout                = "wide",
+    initial_sidebar_state = "collapsed"
 )
 
 # ============================================================
@@ -41,20 +41,30 @@ def load_css():
 load_css()
 
 # ============================================================
+# HIDE SIDEBAR COMPLETELY
+# ============================================================
+
+st.markdown("""
+    <style>
+        [data-testid="stSidebar"]               { display: none !important; }
+        [data-testid="stSidebarCollapsedControl"]{ display: none !important; }
+        [data-testid="collapsedControl"]         { display: none !important; }
+    </style>
+""", unsafe_allow_html=True)
+
+# ============================================================
 # COLOR PALETTE
 # ============================================================
 
-# Accent colors for each stock
 STOCK_COLORS = {
-    'AAPL'        : '#60a5fa',  # blue
-    'MSFT'        : '#a78bfa',  # purple
-    'TSLA'        : '#f87171',  # red
-    'RELIANCE.NS' : '#34d399',  # green
-    'TCS.NS'      : '#fbbf24',  # amber
-    '^NSEI'       : '#fb923c',  # orange
+    'AAPL'        : '#60a5fa',
+    'MSFT'        : '#a78bfa',
+    'TSLA'        : '#f87171',
+    'RELIANCE.NS' : '#34d399',
+    'TCS.NS'      : '#fbbf24',
+    '^NSEI'       : '#fb923c',
 }
 
-# Plotly base theme
 def make_theme(height=420):
     return dict(
         height        = height,
@@ -66,20 +76,20 @@ def make_theme(height=420):
             size   = 11
         ),
         xaxis = dict(
-            gridcolor  = '#161616',
-            linecolor  = '#222222',
-            tickcolor  = '#222222',
-            tickfont   = dict(color='#555555', size=10),
-            showgrid   = True,
-            zeroline   = False,
+            gridcolor = '#161616',
+            linecolor = '#222222',
+            tickcolor = '#222222',
+            tickfont  = dict(color='#555555', size=10),
+            showgrid  = True,
+            zeroline  = False,
         ),
         yaxis = dict(
-            gridcolor  = '#161616',
-            linecolor  = '#222222',
-            tickcolor  = '#222222',
-            tickfont   = dict(color='#555555', size=10),
-            showgrid   = True,
-            zeroline   = False,
+            gridcolor = '#161616',
+            linecolor = '#222222',
+            tickcolor = '#222222',
+            tickfont  = dict(color='#555555', size=10),
+            showgrid  = True,
+            zeroline  = False,
         ),
         legend = dict(
             bgcolor     = '#0d0d0d',
@@ -124,75 +134,82 @@ TICKER_NAMES = {
 
 @st.cache_data
 def load_all_data():
-    data    = download_multiple_stocks(ALL_TICKERS, START_DATE, END_DATE)
-    cleaned = clean_multiple_stocks(data)
+    data     = download_multiple_stocks(ALL_TICKERS, START_DATE, END_DATE)
+    cleaned  = clean_multiple_stocks(data)
     enriched = {}
     for ticker in ALL_TICKERS:
         enriched[ticker] = add_all_indicators(cleaned[ticker], ticker)
     return enriched
 
 # ============================================================
-# HELPER — SECTION LABEL
+# HELPER
 # ============================================================
 
 def section_label(left, right):
     st.markdown(f"""
         <p style='
-            font-size   : 10px;
+            font-size     : 10px;
             letter-spacing: 3px;
-            color       : #3a3a3a;
+            color         : #3a3a3a;
             text-transform: uppercase;
-            margin      : 28px 0 10px 0;
-            font-weight : 500;
+            margin        : 28px 0 10px 0;
+            font-weight   : 500;
         '>{left} &nbsp;<span style='color:#222222'>·</span>&nbsp; {right}</p>
     """, unsafe_allow_html=True)
+
+# ============================================================
+# LOAD DATA
+# ============================================================
+
+with st.spinner("Fetching market data..."):
+    data = load_all_data()
 
 # ============================================================
 # HEADER
 # ============================================================
 
-col_logo, col_title = st.columns([1, 11])
+col_logo, col_title = st.columns([0.5, 11])
 
 with col_logo:
     st.markdown("""
         <div style='
-            width        : 48px;
-            height       : 48px;
-            background   : linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
-            border-radius: 12px;
-            border       : 1px solid #2a2a2a;
-            display      : flex;
-            align-items  : center;
+            width          : 48px;
+            height         : 48px;
+            background     : linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
+            border-radius  : 12px;
+            border         : 1px solid #2a2a2a;
+            display        : flex;
+            align-items    : center;
             justify-content: center;
-            margin-top   : 8px;
-            font-size    : 20px;
+            margin-top     : 6px;
+            font-size      : 24px;
         '>▲</div>
     """, unsafe_allow_html=True)
 
 with col_title:
     st.markdown("""
-        <div style='padding: 4px 0 0 4px'>
+        <div style='padding: 2px 0 0 4px'>
             <span style='
-                font-size      : 10px;
-                letter-spacing : 4px;
-                color          : #333333;
-                text-transform : uppercase;
-                font-weight    : 500;
+                font-size     : 10px;
+                letter-spacing: 4px;
+                color         : #333333;
+                text-transform: uppercase;
+                font-weight   : 500;
             '>Market Intelligence</span>
             <div style='
-                font-size    : 1.9rem;
-                color        : #ffffff;
-                font-weight  : 700;
+                font-size     : 1.9rem;
+                color         : #ffffff;
+                font-weight   : 700;
                 letter-spacing: -1px;
-                line-height  : 1.2;
-                margin-top   : 2px;
+                line-height   : 1.2;
+                margin-top    : 2px;
             '>Stock Analytics
                 <span style='color:#2a2a2a'>Dashboard</span>
             </div>
             <div style='
-                font-size  : 12px;
-                color      : #333333;
-                margin-top : 4px;
+                font-size     : 12px;
+                color         : #333333;
+                margin-top    : 4px;
                 letter-spacing: 0.5px;
             '>
                 <span style='color:#60a5fa'>●</span> Apple &nbsp;
@@ -205,80 +222,88 @@ with col_title:
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:24px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 st.markdown("<hr style='border-color:#1a1a1a; margin:0'>", unsafe_allow_html=True)
 
 # ============================================================
-# LOAD DATA
+# CONTROLS BAR — Always Visible at Top
 # ============================================================
 
-with st.spinner("Fetching market data..."):
-    data = load_all_data()
-
-# ============================================================
-# SIDEBAR
-# ============================================================
-
-st.sidebar.markdown("""
+st.markdown("""
     <div style='
-        font-size     : 10px;
-        letter-spacing: 3px;
-        color         : #333333;
-        text-transform: uppercase;
-        margin-bottom : 16px;
-        font-weight   : 500;
-    '>Dashboard Controls</div>
-""", unsafe_allow_html=True)
-
-selected_ticker = st.sidebar.selectbox(
-    "Select Instrument",
-    options     = ALL_TICKERS,
-    format_func = lambda x: f"{TICKER_NAMES[x]}  ({x})"
-)
-
-ma_options = st.sidebar.multiselect(
-    "Moving Averages",
-    options = ['SMA_20', 'SMA_50', 'SMA_200'],
-    default = ['SMA_20', 'SMA_50']
-)
-
-st.sidebar.markdown("---")
-
-# Stock color dots in sidebar
-st.sidebar.markdown("""
-    <div style='font-size:11px; color:#444444; line-height:2.2'>
-""", unsafe_allow_html=True)
-
-for ticker in ALL_TICKERS:
-    color = STOCK_COLORS[ticker]
-    name  = TICKER_NAMES[ticker]
-    ret   = round(data[ticker]['Cumulative_Return_Pct'].iloc[-1], 1)
-    sign  = "+" if ret > 0 else ""
-    st.sidebar.markdown(f"""
-        <div style='
-            display        : flex;
-            justify-content: space-between;
-            align-items    : center;
-            padding        : 4px 0;
-            border-bottom  : 1px solid #1a1a1a;
-        '>
-            <span>
-                <span style='color:{color}; font-size:8px'>●</span>
-                &nbsp;
-                <span style='color:#666666; font-size:11px'>{name}</span>
-            </span>
-            <span style='color:{color}; font-size:11px; font-weight:600'>
-                {sign}{ret}%
-            </span>
-        </div>
-    """, unsafe_allow_html=True)
-
-st.sidebar.markdown("""
-    <div style='font-size:10px; color:#2a2a2a; margin-top:16px;
-    letter-spacing:1px; text-align:center'>
-        2020 · 2024 · YAHOO FINANCE
+        background    : #111111;
+        border        : 1px solid #1e1e1e;
+        border-radius : 12px;
+        padding       : 16px 20px;
+        margin        : 16px 0;
+    '>
+        <span style='
+            font-size     : 10px;
+            letter-spacing: 3px;
+            color         : #333333;
+            text-transform: uppercase;
+        '>Dashboard Controls</span>
     </div>
 """, unsafe_allow_html=True)
+
+# Controls in one clean row
+ctrl1, ctrl2, ctrl3 = st.columns([2, 3, 3])
+
+with ctrl1:
+    st.markdown("""
+        <p style='font-size:11px; color:#444444;
+        margin-bottom:6px; letter-spacing:1px'>
+        SELECT STOCK</p>
+    """, unsafe_allow_html=True)
+    selected_ticker = st.selectbox(
+        "stock",
+        options     = ALL_TICKERS,
+        format_func = lambda x: f"{TICKER_NAMES[x]}  ({x})",
+        label_visibility = "collapsed"
+    )
+
+with ctrl2:
+    st.markdown("""
+        <p style='font-size:11px; color:#444444;
+        margin-bottom:6px; letter-spacing:1px'>
+        MOVING AVERAGES</p>
+    """, unsafe_allow_html=True)
+    ma_options = st.multiselect(
+        "ma",
+        options  = ['SMA_20', 'SMA_50', 'SMA_200'],
+        default  = ['SMA_20', 'SMA_50'],
+        label_visibility = "collapsed"
+    )
+
+with ctrl3:
+    # Live returns for all stocks
+    st.markdown("""
+        <p style='font-size:11px; color:#444444;
+        margin-bottom:6px; letter-spacing:1px'>
+        TOTAL RETURNS</p>
+    """, unsafe_allow_html=True)
+    ret_cols = st.columns(6)
+    for i, ticker in enumerate(ALL_TICKERS):
+        c   = STOCK_COLORS[ticker]
+        ret = round(data[ticker]['Cumulative_Return_Pct'].iloc[-1], 1)
+        sign = "+" if ret > 0 else ""
+        ret_cols[i].markdown(f"""
+            <div style='text-align:center'>
+                <div style='
+                    font-size  : 9px;
+                    color      : #444444;
+                    letter-spacing: 1px;
+                '>{TICKER_NAMES[ticker].upper()}</div>
+                <div style='
+                    font-size  : 13px;
+                    color      : {c};
+                    font-weight: 600;
+                    margin-top : 2px;
+                '>{sign}{ret}%</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+st.markdown("<hr style='border-color:#1a1a1a; margin:8px 0 0 0'>", unsafe_allow_html=True)
 
 # ============================================================
 # SELECTED STOCK
@@ -316,7 +341,6 @@ section_label(name, "Price History & Moving Averages")
 
 fig_price = go.Figure()
 
-# Gradient fill under price
 fig_price.add_trace(go.Scatter(
     x         = df.index,
     y         = df['Adj Close'],
@@ -359,6 +383,7 @@ col1, col2 = st.columns([3, 2])
 with col1:
     pos_color = f"rgba({int(color[1:3],16)},{int(color[3:5],16)},{int(color[5:7],16)},0.8)"
     neg_color = "rgba(248, 113, 113, 0.75)"
+
     fig_ret = go.Figure()
     fig_ret.add_trace(go.Bar(
         x = df.index,
@@ -372,7 +397,8 @@ with col1:
         hovertemplate = "<b>%{x|%d %b %Y}</b><br>Return: %{y:.2f}%<extra></extra>"
     ))
     theme_ret = make_theme(340)
-    theme_ret['yaxis']['title'] = dict(text="Return (%)", font=dict(color='#444444'))
+    theme_ret['yaxis']['title'] = dict(
+        text="Return (%)", font=dict(color='#444444'))
     fig_ret.update_layout(showlegend=False, **theme_ret)
     st.plotly_chart(fig_ret, use_container_width=True)
 
@@ -397,8 +423,10 @@ with col2:
         line_width = 1.5
     )
     theme_hist = make_theme(340)
-    theme_hist['xaxis']['title'] = dict(text="Daily Return (%)", font=dict(color='#444444'))
-    theme_hist['yaxis']['title'] = dict(text="Frequency",        font=dict(color='#444444'))
+    theme_hist['xaxis']['title'] = dict(
+        text="Daily Return (%)", font=dict(color='#444444'))
+    theme_hist['yaxis']['title'] = dict(
+        text="Frequency", font=dict(color='#444444'))
     fig_hist.update_layout(showlegend=False, **theme_hist)
     st.plotly_chart(fig_hist, use_container_width=True)
 
@@ -411,8 +439,8 @@ section_label("All Stocks", "Cumulative Returns")
 fig_cum = go.Figure()
 
 for ticker in ALL_TICKERS:
-    df_t  = data[ticker]
-    c     = STOCK_COLORS[ticker]
+    df_t = data[ticker]
+    c    = STOCK_COLORS[ticker]
     fig_cum.add_trace(go.Scatter(
         x    = df_t.index,
         y    = df_t['Cumulative_Return_Pct'],
@@ -422,7 +450,8 @@ for ticker in ALL_TICKERS:
     ))
 
 theme_cum = make_theme(440)
-theme_cum['yaxis']['title'] = dict(text="Cumulative Return (%)", font=dict(color='#444444'))
+theme_cum['yaxis']['title'] = dict(
+    text="Cumulative Return (%)", font=dict(color='#444444'))
 fig_cum.update_layout(hovermode="x unified", **theme_cum)
 fig_cum.update_layout(legend=dict(orientation="h", y=1.08, x=0))
 st.plotly_chart(fig_cum, use_container_width=True)
@@ -458,7 +487,8 @@ fig_vol.add_trace(go.Scatter(
 ))
 
 theme_vol = make_theme(360)
-theme_vol['yaxis']['title'] = dict(text="Annualized Volatility (%)", font=dict(color='#444444'))
+theme_vol['yaxis']['title'] = dict(
+    text="Annualized Volatility (%)", font=dict(color='#444444'))
 fig_vol.update_layout(hovermode="x unified", **theme_vol)
 st.plotly_chart(fig_vol, use_container_width=True)
 
@@ -482,11 +512,11 @@ with col1:
         x            = corr.columns.tolist(),
         y            = corr.index.tolist(),
         colorscale   = [
-            [0.0,  '#0d0d0d'],
-            [0.3,  '#1a1a2e'],
-            [0.5,  '#16213e'],
-            [0.7,  '#1e3a5f'],
-            [1.0,  '#60a5fa'],
+            [0.0, '#0d0d0d'],
+            [0.3, '#1a1a2e'],
+            [0.5, '#16213e'],
+            [0.7, '#1e3a5f'],
+            [1.0, '#60a5fa'],
         ],
         zmin         = -1,
         zmax         =  1,
@@ -495,12 +525,11 @@ with col1:
         textfont     = dict(size=11, color='#cccccc'),
         showscale    = True,
         colorbar     = dict(
-            tickfont  = dict(color='#555555', size=10),
-            bgcolor   = '#0d0d0d',
+            tickfont    = dict(color='#555555', size=10),
+            bgcolor     = '#0d0d0d',
             bordercolor = '#1e1e1e'
         )
     ))
-
     theme_corr = make_theme(380)
     fig_corr.update_layout(**theme_corr)
     st.plotly_chart(fig_corr, use_container_width=True)
@@ -520,22 +549,24 @@ with col2:
             y    = [ret],
             mode = 'markers+text',
             marker = dict(
-                size  = 16,
-                color = c,
-                line  = dict(color='#0d0d0d', width=2),
+                size   = 16,
+                color  = c,
+                line   = dict(color='#0d0d0d', width=2),
                 symbol = 'circle'
             ),
-            text         = [nname],
-            textposition = 'top center',
-            textfont     = dict(size=10, color=c),
-            name         = nname,
-            showlegend   = False,
+            text          = [nname],
+            textposition  = 'top center',
+            textfont      = dict(size=10, color=c),
+            name          = nname,
+            showlegend    = False,
             hovertemplate = f"<b>{nname}</b><br>Risk: %{{x:.1f}}%<br>Return: %{{y:.1f}}%<extra></extra>"
         ))
 
     theme_rr = make_theme(380)
-    theme_rr['xaxis']['title'] = dict(text="Risk — Annual Volatility (%)", font=dict(color='#444444'))
-    theme_rr['yaxis']['title'] = dict(text="Total Return (%)",             font=dict(color='#444444'))
+    theme_rr['xaxis']['title'] = dict(
+        text="Risk — Annual Volatility (%)", font=dict(color='#444444'))
+    theme_rr['yaxis']['title'] = dict(
+        text="Total Return (%)", font=dict(color='#444444'))
     fig_rr.update_layout(**theme_rr)
     st.plotly_chart(fig_rr, use_container_width=True)
 
@@ -561,15 +592,15 @@ st.dataframe(
 
 st.markdown("""
     <div style='
-        margin-top    : 56px;
-        padding       : 20px 0;
-        border-top    : 1px solid #161616;
-        display       : flex;
+        margin-top     : 56px;
+        padding        : 20px 0;
+        border-top     : 1px solid #161616;
+        display        : flex;
         justify-content: space-between;
-        align-items   : center;
+        align-items    : center;
     '>
         <span style='font-size:11px; color:#2a2a2a; letter-spacing:2px'>
-            ▲ STOCK ANALYTICS
+            📈 STOCK ANALYTICS
         </span>
         <span style='font-size:10px; color:#222222; letter-spacing:1px'>
             BUILT BY SHIVAM &nbsp;·&nbsp;

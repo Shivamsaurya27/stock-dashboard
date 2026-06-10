@@ -2,21 +2,17 @@
    style.css — Dark Monochromatic Theme
    ============================================================ */
 
-/* ── Import Font ──────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-/* ── Global Reset ─────────────────────────────────────────── */
 * {
     font-family: 'Space Grotesk', sans-serif !important;
 }
 
-/* ── Main Background ──────────────────────────────────────── */
 .stApp {
     background-color: #0a0a0a !important;
     color: #e0e0e0 !important;
 }
 
-/* ── Sidebar ──────────────────────────────────────────────── */
 [data-testid="stSidebar"] {
     background-color: #111111 !important;
     border-right: 1px solid #222222 !important;
@@ -26,7 +22,6 @@
     color: #cccccc !important;
 }
 
-/* ── Metric Cards ─────────────────────────────────────────── */
 [data-testid="stMetric"] {
     background-color: #111111 !important;
     border: 1px solid #222222 !important;
@@ -47,66 +42,34 @@
     font-weight: 600 !important;
 }
 
-[data-testid="stMetricDelta"] {
-    font-size: 12px !important;
-}
-
-/* ── Headers ──────────────────────────────────────────────── */
 h1 {
     color: #ffffff !important;
     font-weight: 700 !important;
     font-size: 2rem !important;
     letter-spacing: -0.5px !important;
-    border-bottom: 2px solid #333333 !important;
-    padding-bottom: 12px !important;
 }
 
 h2, h3 {
     color: #dddddd !important;
     font-weight: 600 !important;
-    letter-spacing: -0.3px !important;
 }
 
-/* ── Divider ──────────────────────────────────────────────── */
 hr {
     border-color: #1e1e1e !important;
 }
 
-/* ── Selectbox & Multiselect ──────────────────────────────── */
 [data-testid="stSelectbox"] > div,
 [data-testid="stMultiSelect"] > div {
     background-color: #1a1a1a !important;
     border: 1px solid #333333 !important;
     border-radius: 8px !important;
-    color: #ffffff !important;
 }
 
-/* ── Slider ───────────────────────────────────────────────── */
-[data-testid="stSlider"] {
-    color: #ffffff !important;
-}
-
-/* ── DataFrame Table ──────────────────────────────────────── */
 [data-testid="stDataFrame"] {
     border: 1px solid #222222 !important;
     border-radius: 12px !important;
-    overflow: hidden !important;
 }
 
-/* ── Success / Info Boxes ─────────────────────────────────── */
-[data-testid="stAlert"] {
-    background-color: #1a1a1a !important;
-    border: 1px solid #333333 !important;
-    border-radius: 8px !important;
-    color: #cccccc !important;
-}
-
-/* ── Spinner ──────────────────────────────────────────────── */
-[data-testid="stSpinner"] {
-    color: #888888 !important;
-}
-
-/* ── Plotly Chart Container ───────────────────────────────── */
 [data-testid="stPlotlyChart"] {
     background-color: #111111 !important;
     border: 1px solid #1e1e1e !important;
@@ -114,23 +77,24 @@ hr {
     padding: 8px !important;
 }
 
-/* ── Footer ───────────────────────────────────────────────── */
-footer {
-    color: #444444 !important;
-}
-
-/* ── Hide Streamlit Default Menu Icon ─────────────────────── */
-[data-testid="stSidebarCollapsedControl"] {
+/* ── Hide Streamlit Default Branding ───────────────────────── */
+[data-testid="stHeader"] {
     display: none !important;
 }
 
-/* ── Top Bar ──────────────────────────────────────────────── */
-[data-testid="stHeader"] {
-    background-color: #0a0a0a !important;
-    border-bottom: 1px solid #1a1a1a !important;
+#MainMenu {
+    display: none !important;
 }
 
-/* ── Scrollbar ────────────────────────────────────────────── */
+footer {
+    display: none !important;
+}
+
+[data-testid="stToolbar"] {
+    display: none !important;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -146,51 +110,61 @@ footer {
     background: #3a3a3a;
 }
 
-/* ── Hide Default Sidebar Toggle ──────────────────────────── */
+/* ── Sidebar Toggle — Keep Visible ────────────────────────── */
 [data-testid="stSidebarCollapsedControl"] {
-    visibility: hidden !important;
-}
-
-/* ── Custom Sidebar Toggle Feel ───────────────────────────── */
-[data-testid="stSidebarCollapseButton"] {
+    visibility       : visible !important;
+    opacity          : 1 !important;
     background-color : #1a1a1a !important;
-    border-radius    : 8px !important;
     border           : 1px solid #2a2a2a !important;
-    color            : #555555 !important;
+    border-radius    : 0 8px 8px 0 !important;
 }
 
-[data-testid="stSidebarCollapseButton"]:hover {
+[data-testid="stSidebarCollapsedControl"] button {
+    background-color : transparent !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] svg {
+    fill   : #888888 !important;
+    width  : 16px !important;
+    height : 16px !important;
+}
+
+/* ── Sidebar Toggle Button ─────────────────────────────────── */
+[data-testid="stSidebarCollapsedControl"] {
+    visibility       : visible !important;
+    opacity          : 1 !important;
+    display          : flex !important;
+    align-items      : center !important;
+    justify-content  : center !important;
+    top              : 16px !important;
+    left             : 8px !important;
+    width            : 36px !important;
+    height           : 36px !important;
+    background-color : #1a1a1a !important;
+    border           : 1px solid #2a2a2a !important;
+    border-radius    : 8px !important;
+    position         : fixed !important;
+    z-index          : 9999 !important;
+    cursor           : pointer !important;
+}
+
+[data-testid="stSidebarCollapsedControl"]:hover {
     background-color : #222222 !important;
     border-color     : #444444 !important;
 }
 
-/* ── Hide the Material Icon Text ──────────────────────────── */
+[data-testid="stSidebarCollapsedControl"] svg {
+    fill             : #888888 !important;
+    width            : 18px !important;
+    height           : 18px !important;
+}
+
 [data-testid="stSidebarCollapsedControl"] button {
-    font-family : monospace !important;
-    font-size   : 0px !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] button::after {
-    content   : "›" !important;
-    font-size : 18px !important;
-    color     : #555555 !important;
-}
-
-/* ── Hide Entire Default Streamlit Top Bar ─────────────────── */
-[data-testid="stHeader"] {
-    display: none !important;
-}
-
-/* ── Hide Deploy Button ────────────────────────────────────── */
-[data-testid="stToolbar"] {
-    display: none !important;
-}
-
-/* ── Hide Default Main Menu ────────────────────────────────── */
-#MainMenu {
-    display: none !important;
-}
-
-footer {
-    display: none !important;
+    background       : transparent !important;
+    border           : none !important;
+    width            : 100% !important;
+    height           : 100% !important;
+    display          : flex !important;
+    align-items      : center !important;
+    justify-content  : center !important;
 }

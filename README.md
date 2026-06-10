@@ -1,6 +1,7 @@
 # 📈 Stock Market Analytics Dashboard
 
-Interactive stock market analytics dashboard built with Python.
+## 🔴 Live Demo
+👉 https://stock-dashboard-pv74m3r6ehwneplofar2xg.streamlit.app/
 
 ## Features
 - US Stocks: Apple, Microsoft, Tesla
@@ -19,4 +20,4 @@ pip install -r requirements.txt
 streamlit run dashboard/app.py
 
 ## Author
-Shivam Kumar — Shivamsaurya27
+Shivam Kumar — github.com/Shivamsaurya27

@@ -1,0 +1,8 @@
+stockenv/
+__pycache__/
+*.pyc
+.vscode/
+data/raw/
+.env
+*.csv
+*.log
